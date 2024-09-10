@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+// import Login from '../../online bank/Login'; // Your login component
+import MainBar from './AppBar/appBar';
+import Dashboard from "./dashBoard";
+import { Outlet } from 'react-router-dom';
+import Register from './Signup';
 
-function App() {
+const AppContent = () => {
+  const location = useLocation();
+  const shouldRenderMainBar = !['/login', '/signup'].includes(location.pathname);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {shouldRenderMainBar && <MainBar />}
+      <Routes>
+        <Route path="/" element={<Dashboard />} />    
+        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/signup" element={<Register />} />
+        {/* Add more routes here if needed */}
+      </Routes>
+    </>
   );
-}
+};
+
+const App = () => (
+  <BrowserRouter>
+    <AppContent />
+    <Outlet/>
+  </BrowserRouter>
+);
 
 export default App;
