@@ -5,6 +5,7 @@ import MainBar from './AppBar/appBar';
 import Dashboard from "./dashBoard";
 import { Outlet } from 'react-router-dom';
 import Register from './Signup';
+import Home from './home';
 
 const AppContent = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const AppContent = () => {
         <Route path="/" element={<Dashboard />} />    
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/signup" element={<Register />} />
+        <Route path="/home" element={<Home />} />
         {/* Add more routes here if needed */}
       </Routes>
     </>

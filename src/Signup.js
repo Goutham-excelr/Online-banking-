@@ -2,13 +2,29 @@ import React, { useState } from "react";
 import './app.css'; // Ensure this path is correct
 // import img from "../Images/telephone3.png";
 import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [isSignIn, setIsSignIn] = useState(true);
+  const navigate=useNavigate()
+  const [isSignIn, setIsSignIn] = useState(true); 
+  const [customerid,setCustomerid] = useState("")
+  const [recovery, setRecovery] = useState("signin")
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const [otp,setOtp] = useState("") 
+  const [conformpassword,setConformpassword] = useState("")
+  console.log(customerid,'cuid',email,'em',password,'pa',conformpassword,'cpas',otp,'otp')
+
+  console.log(recovery,'re')
 
   const toggleSlider = () => {
     setIsSignIn(!isSignIn);
   };
+  const handleOtp = () => {
+    setRecovery("OTP");
+    localStorage.setItem("Email",email)
+  }
 
   return (
     <Grid 
@@ -30,15 +46,62 @@ const Register = () => {
         className={`container ${isSignIn ? "" : "right-panel-active"}`}
       >
         <div className="form-container sign-in-container">
+        {recovery=="signin"&&
+        (
           <form>
-            <h1>Sign In</h1>
-            <input type="text" placeholder="CustomerID" />
-            <input type="password" placeholder="Password" />
-            <div className="forgot-password">
-              <a href="/forgot-password">Forgot Password?</a>
-            </div><br/>
-            <button type="submit">Sign In</button>
-          </form>
+          <h1>Sign In</h1>
+          <input type="text" placeholder="Enter CustomerID" 
+          value={customerid}
+          onChange={(e)=>{setCustomerid(e.target.value)}} />
+          
+          <input type="password" placeholder="Enter Password" value={password}
+          onChange={(e)=>{setPassword(e.target.value)}}/>
+          <div className="forgot-password">
+            {/* <a href="/forgot-password">Forgot Password?</a> */}
+            <Link onClick={()=>{setRecovery("email")}}>Forgot Password?</Link>
+          </div><br/>
+          <button type="submit" onClick={()=>(navigate('/home'))}>Sign In</button>
+        </form>
+        )
+        }
+        {recovery=="email"&&
+        (
+          <>
+          <h2>Recovery Password</h2>
+          <input type="email" placeholder="Enter Email"
+          value={email}
+          onChange={(e)=>{setEmail(e.target.value)}}
+          />
+          <button onClick={handleOtp}>Send OTP</button>
+          </>
+        )
+        }
+        {recovery=="OTP"&&
+        (
+          <>
+          <h2>Recovery Password</h2>
+          <input type="Number" placeholder="Enter Otp" value={otp}
+          onChange={(e)=>{setOtp(e.target.value)}} />
+          {/* <link>Resend OTP</link> */}
+          <Link>Resend OTP</Link>
+          <button onClick={()=>{setRecovery("password")}}>submit</button>
+          </>
+        )
+        }
+        {recovery=="password"&&
+        (
+          <>
+          <h1>Set New Password</h1>
+          <input type="password" placeholder="Enter password"  value={password}
+          onChange={(e)=>{setPassword(e.target.value)}}></input>
+          <input type="password" placeholder="Conform password" value={conformpassword}
+          onChange={(e)=>{setConformpassword(e.target.value)}}></input>
+          <button onClick={()=>{setRecovery("signin")}}>submit</button>
+          
+          
+          </>
+        )
+        }
         </div>
 
         <div className="form-container sign-up-container">
