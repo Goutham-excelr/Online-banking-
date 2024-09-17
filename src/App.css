@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: center;
     width: 50%; /* Adjusted width to fit content */
-    padding: 20px; /* Added padding for better spacing */
+    padding: 5px; /* Added padding for better spacing */
   }
   
   .sign-in-container {
@@ -210,5 +210,6 @@
   .forgot-password a:hover {
     text-decoration: underline;
   }
+  
   
   
